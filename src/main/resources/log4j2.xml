@@ -62,20 +62,13 @@
             <AppenderRef ref="common-error"/>
         </Logger>
 
-        <!--<Logger name="com.dianrong.loanbusiness.ams.common.monitor.SimpleStatsInterceptor" level="info"-->
-                <!--additivity="false">-->
-            <!--<AppenderRef ref="DAL-DIGEST-APPENDER"/>-->
-            <!--<AppenderRef ref="common-error"/>-->
-        <!--</Logger>-->
+
 
         <Logger name="PERFORMANCE" level="info" additivity="false">
             <AppenderRef ref="BD-PERF"/>
             <AppenderRef ref="common-error"/>
         </Logger>
 
-        <!--&lt;!&ndash;mybatis sql log &ndash;&gt;-->
-        <!--<Logger name="com.dianrong.loanbusiness.ams.dal.mapper" level="debug" additivity="true">-->
-            <!--<AppenderRef ref="sql"/>-->
-        <!--</Logger>-->
+
     </Loggers>
 </Configuration>
