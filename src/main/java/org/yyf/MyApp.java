@@ -14,8 +14,12 @@ public class MyApp {
 
         // Set up a simple configuration that logs on the console.
 
-        logger.trace("Entering application.");
         logger.error("Didn't do it.");
+        logger.warn("it's warn message !");
+        logger.info("it's info message !");
+        logger.debug("debug");
+        logger.trace("Entering application.");
         logger.trace("Exiting application.");
+        int i = 1 / 0;
     }
 }

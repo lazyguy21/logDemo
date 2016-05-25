@@ -1,16 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="warn">
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="pathName">${env:CATALINA_LOGS}</Property>
+    </Properties>
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c{2} %m%n</pattern>
+                <!--<pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</pattern>-->
+            </PatternLayout>
         </Console>
+        <RollingFile name="common-error" fileName="${pathName}/common-error.log"
+                     filePattern="${pathName}/common-error.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c{2} %m%n</pattern>
+            </PatternLayout>
+            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        </RollingFile>
+        <RollingFile name="biz-info" fileName="${pathName}/biz-info.log"
+                     filePattern="${pathName}/biz-info.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c{2} %m%n</pattern>
+            </PatternLayout>
+            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        </RollingFile>
+
+        <RollingFile name="DAL-DIGEST-APPENDER" fileName="${pathName}/perf-digest.log"
+                     filePattern="${pathName}/dal-perf-digest.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c{2} %m%n</pattern>
+            </PatternLayout>
+            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        </RollingFile>
+        <RollingFile name="BD-PERF" fileName="${pathName}/bd-perf.log"
+                     filePattern="${pathName}/bd-perf.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c{2} %m%n</pattern>
+            </PatternLayout>
+            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        </RollingFile>
+        <RollingFile name="sql" fileName="${pathName}/sql.log"
+                     filePattern="${pathName}/sql.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c{2} %m%n</pattern>
+            </PatternLayout>
+            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="com.foo.Bar" level="trace">
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <Root level="info">
-            <AppenderRef ref="Console"/>
+        <Root level="info" additivity="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="common-error"/>
         </Root>
+        <Logger name="org.yyf" level="info" additivity="false">
+            <AppenderRef ref="biz-info"/>
+            <AppenderRef ref="common-error"/>
+        </Logger>
+
+        <!--<Logger name="com.dianrong.loanbusiness.ams.common.monitor.SimpleStatsInterceptor" level="info"-->
+                <!--additivity="false">-->
+            <!--<AppenderRef ref="DAL-DIGEST-APPENDER"/>-->
+            <!--<AppenderRef ref="common-error"/>-->
+        <!--</Logger>-->
+
+        <Logger name="PERFORMANCE" level="info" additivity="false">
+            <AppenderRef ref="BD-PERF"/>
+            <AppenderRef ref="common-error"/>
+        </Logger>
+
+        <!--&lt;!&ndash;mybatis sql log &ndash;&gt;-->
+        <!--<Logger name="com.dianrong.loanbusiness.ams.dal.mapper" level="debug" additivity="true">-->
+            <!--<AppenderRef ref="sql"/>-->
+        <!--</Logger>-->
     </Loggers>
 </Configuration>
